@@ -1,0 +1,10 @@
+go install <source> - сборка бинарника и сохранение его в GOPATH
+go env -w <GOPATH=path/to/directory> - установка переменной окружения
+go env -u <GOPATH> - отмена установки переменной окружения
+go list - путь до каталога с go файлами
+go list -f '{{ .Target }}' . - путь сохранения и имя бинарника при go install
+go build - в папке без package main сохраняет в локальном кеше сборку текущего пакета
+go mod tidy загружает недостающие пакеты и удаляет неиспользуемые (+ редактирует go mod)
+go clean - очистка объектных файлов, кеша (-i, -n, -modcache, -testcache, -cache)
+go test - тестирование (работает с пакетом "testing")
+go help <tool> - справка по инструментам
