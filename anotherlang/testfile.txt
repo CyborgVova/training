@@ -1,0 +1,1 @@
+This empty file need for checking command git commit --amend

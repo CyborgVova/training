@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        Home page
+    </title>
+</head>
+<body>
+    <h1>{{ .Title }}</h1>
+    <p><a href="/edit/{{.Title}}">Edit</a></p>
+    <h3 style="white-space: pre-line;">{{ printf "%s" .Body }}</h3>
+</body>
+</html>

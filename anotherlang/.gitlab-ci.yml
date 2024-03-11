@@ -1,0 +1,42 @@
+stages:
+  - test
+  - build
+
+test-linux:
+  stage: test
+  script:
+    - echo "Add tag v1.0.2"
+  tags:
+    - linux
+
+test-windows:
+  stage: test
+  script:
+    - echo "Add tag v1.0.2"
+  tags:
+    - windows
+
+build-job-linux:
+  stage: build
+  script:
+    - bash hello.sh
+    - gcc main.c
+  tags:
+    - linux
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/a.out
+    expire_in: 1 day
+  after_script:
+    - echo $CI_JOB_STATUS
+build-job-windows:
+  stage: build
+  script:
+    - gcc main.c
+  tags:
+    - windows
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/a.exe
+  after_script:
+    - echo $CI_JOB_STATUS
