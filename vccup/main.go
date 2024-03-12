@@ -1,3 +1,4 @@
+// from https://habr.com/ru/articles/716292/
 // docker pull vkcup2022/golang:lates
 // docker run -it --rm -d -p 8080:80 --name web vkcup2022/golang:latest
 package main
