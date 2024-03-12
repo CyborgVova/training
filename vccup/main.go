@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"image/png
+	"image/png"
 	"io"
 	"net/http"
 	"net/url"
