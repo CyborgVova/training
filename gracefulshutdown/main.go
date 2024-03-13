@@ -50,6 +50,10 @@ func main() {
 		<-ctx.Done()
 		srv1.Shutdown(context.Background())
 		fmt.Println("Server 1 is shutdown")
+	}()
+
+	go func() {
+		<-ctx.Done()
 		srv2.Shutdown(context.Background())
 		fmt.Println("Server 2 is shutdown")
 	}()
