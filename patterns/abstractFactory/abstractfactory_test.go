@@ -5,11 +5,11 @@ import (
 )
 
 func TestIntelOS(t *testing.T) {
-	comp := NewComputer()
+	asus := NewComputer()
 
-	ubuntu := comp.CreateOS("Ubuntu")
+	ubuntu := asus.CreateOS("Ubuntu")
 
-	intel := comp.CreateHardware("kingstone 4Gb", "Intel i5", "Asus PG5", "nVideo PGX1800")
+	intel := asus.CreateHardware("kingstone 4Gb", "Intel i5", "Asus PG5", "nVideo PGX1800")
 	intel.InstallOS(ubuntu)
 
 	want := ubuntu.GetFamily()
@@ -22,11 +22,11 @@ func TestIntelOS(t *testing.T) {
 }
 
 func TestAmdOS(t *testing.T) {
-	comp := NewComputer()
+	gigabyte := NewComputer()
 
-	windows := comp.CreateOS("Windows")
+	windows := gigabyte.CreateOS("Windows")
 
-	amd := comp.CreateHardware("Gigabite 8Gb", "AMD 2200", "NoName", "ATI r530x")
+	amd := gigabyte.CreateHardware("Gigabite 8Gb", "AMD 2200", "NoName", "ATI r530x")
 	amd.InstallOS(windows)
 
 	want := windows.GetFamily()
@@ -35,4 +35,21 @@ func TestAmdOS(t *testing.T) {
 	if want != got {
 		t.Errorf("want: %s, got: %s\n", want, got)
 	}
+}
+
+func TestWithoutOS(t *testing.T) {
+	lenovo := NewComputer()
+
+	whithout := lenovo.CreateOS("")
+
+	intel := lenovo.CreateHardware("kingspec 4Gb", "Intel i3", "MSI B650M", "nVideo PGX1200")
+	intel.InstallOS(whithout)
+
+	want := whithout.GetFamily()
+	got := intel.GetOSFamily()
+
+	if want != got {
+		t.Errorf("want: %s, got: %s\n", want, got)
+	}
+
 }
