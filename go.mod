@@ -2,10 +2,7 @@ module github.com/cyborgvova/training
 
 go 1.21.3
 
-require (
-	github.com/gin-gonic/gin v1.9.1
-	golang.org/x/sync v0.6.0
-)
+require github.com/gin-gonic/gin v1.9.1
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
