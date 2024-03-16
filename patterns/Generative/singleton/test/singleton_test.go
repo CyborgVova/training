@@ -37,8 +37,8 @@ func TestSingleton(t *testing.T) {
 				id   string
 				name string
 			}{
-				id:   test.singleton.Id,
-				name: test.singleton.Name,
+				id:   slt.Id,
+				name: slt.Name,
 			}
 
 			if want.id != got.id {
