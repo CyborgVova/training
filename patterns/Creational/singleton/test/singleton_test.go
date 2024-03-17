@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/cyborgvova/training/patterns/Generative/singleton"
+	"github.com/cyborgvova/training/patterns/Creational/singleton"
 )
 
 func TestSingleton(t *testing.T) {
