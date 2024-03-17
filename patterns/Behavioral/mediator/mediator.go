@@ -48,7 +48,6 @@ func (b *Bank) Paying(product string) (string, error) {
 		if cost <= b.buyer.money {
 			b.buyer.Buy(product, cost)
 			b.store.Sell(product)
-
 			return "purchase completed", nil
 		} else {
 			return "", errors.New("not enough money")
