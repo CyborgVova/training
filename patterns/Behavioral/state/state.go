@@ -1,21 +1,5 @@
 package state
 
-type Object struct {
-	State State
-}
-
-func NewObject() *Object {
-	return &Object{State: &StateA{}}
-}
-
-func (o *Object) Trigger() {
-	o.State = o.State.Trigger()
-}
-
-func (o *Object) GetState() string {
-	return o.State.GetState()
-}
-
 type State interface {
 	Trigger() State
 	GetState() string
@@ -39,4 +23,23 @@ func (s *StateB) GetState() string {
 
 func (s *StateB) Trigger() State {
 	return &StateA{}
+}
+
+type Object struct {
+	State State
+}
+
+// Here default state set as StateA
+func NewObject() *Object {
+	return &Object{State: &StateA{}}
+}
+
+// The method name can be anything
+func (o *Object) Trigger() {
+	o.State = o.State.Trigger()
+}
+
+// The method name can be anything
+func (o *Object) GetState() string {
+	return o.State.GetState()
 }
