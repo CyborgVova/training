@@ -5,3 +5,4 @@
 3. [Итератор(Iterator)](iterator/README.md)
 4. [Посредник(Mediator)](mediator/README.md)
 5. [Снимок(Memento)](memento/README.md)
+6. [Наблюдатель(Observer)](observer/README.md)
