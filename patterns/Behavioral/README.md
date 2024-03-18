@@ -6,4 +6,4 @@
 4. [Посредник(Mediator)](mediator/README.md)
 5. [Снимок(Memento)](memento/README.md)
 6. [Наблюдатель(Observer)](observer/README.md)
-7. [Состояние(State)](state/state.go)
+7. [Состояние(State)](state/README.md)
