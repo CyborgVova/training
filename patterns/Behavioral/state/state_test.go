@@ -8,7 +8,6 @@ func TestState(t *testing.T) {
 	tests := []struct {
 		name string
 		want string
-		got  string
 	}{
 		{
 			name: "First",
