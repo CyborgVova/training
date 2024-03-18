@@ -16,9 +16,7 @@ func NewProducer() *Producer {
 }
 
 func (p *Producer) AddConsumer(subscriber ...Subscriber) {
-	for _, sub := range subscriber {
-		p.Subscribers = append(p.Subscribers, sub)
-	}
+	p.Subscribers = append(p.Subscribers, subscriber...)
 }
 
 func (p *Producer) SetState(state string) {
