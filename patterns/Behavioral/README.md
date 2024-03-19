@@ -7,3 +7,4 @@
 5. [Снимок(Memento)](memento/README.md)
 6. [Наблюдатель(Observer)](observer/README.md)
 7. [Состояние(State)](state/README.md)
+8. [Стратегия(Strategy)](strategy/README.md)
