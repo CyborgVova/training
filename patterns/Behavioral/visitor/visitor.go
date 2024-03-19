@@ -32,8 +32,8 @@ type City struct {
 	places []Place
 }
 
-func (c *City) AddingPlace(place ...Place) {
-	c.places = append(c.places, place...)
+func (c *City) AddingPlaces(places ...Place) {
+	c.places = append(c.places, places...)
 }
 
 func (c *City) Accept(v Visitor) (result string) {

@@ -8,7 +8,7 @@ func TestVisitor(t *testing.T) {
 	circus := &Circus{}
 
 	city := &City{}
-	city.AddingPlace(zoo, cinema, circus)
+	city.AddingPlaces(zoo, cinema, circus)
 
 	tests := []struct {
 		name    string
