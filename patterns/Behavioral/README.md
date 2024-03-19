@@ -9,3 +9,4 @@
 7. [Состояние(State)](state/README.md)
 8. [Стратегия(Strategy)](strategy/README.md)
 9. [Шаблонный метод(Template Method)](templatemethod/README.md)
+10. [Посетитель(Visitor)](visitor/README.md)
