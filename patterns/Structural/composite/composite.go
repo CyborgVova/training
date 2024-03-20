@@ -1,3 +1,3 @@
 package composite
 
-type Composite interface {}
+type Composite interface{}
