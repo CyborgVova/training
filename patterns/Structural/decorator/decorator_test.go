@@ -3,6 +3,8 @@ package decorator
 import "testing"
 
 func TestDecorator(t *testing.T) {
+	object := &Object{}
+	decorator := &Decorator{Object: object}
 
 	tests := []struct {
 		name     string
@@ -25,13 +27,16 @@ func TestDecorator(t *testing.T) {
 			text:     "Third row",
 			apostrof: "'",
 			want:     "'Third row'",
+		}, {
+			name:     "default",
+			text:     "Default behavior",
+			apostrof: "",
+			want:     "Default behavior",
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			object := &Object{}
-			decorator := &Decorator{Apostrof: test.apostrof, Object: object}
 
 			want := test.text
 			got := object.Print(test.text)
@@ -40,6 +45,7 @@ func TestDecorator(t *testing.T) {
 				t.Errorf("want: %s, got: %s\n", want, got)
 			}
 
+			decorator.Apostrof = test.apostrof
 			want = test.want
 			got = decorator.Print(test.text)
 
