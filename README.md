@@ -18,3 +18,5 @@
 16. wiki
 17. unsafe
 18. testdata
+19. tiktak
+20. greetauth
