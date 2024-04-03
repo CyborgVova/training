@@ -40,6 +40,7 @@ func SortHeap(arr []int, n int) {
 
 func main() {
 	var arr = []int{3, 6, 7, 8, 24, 65, 11, 34, 9}
+
 	// heapify(arr, len(arr), 0)
 	// BuildHeap(arr, len(arr))
 	SortHeap(arr, len(arr))

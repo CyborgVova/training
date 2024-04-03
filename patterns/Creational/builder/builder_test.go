@@ -8,10 +8,10 @@ func TestBuilder(t *testing.T) {
 	director := &Director{Builder: concreteBuilder}
 	director.BuildAHouse()
 
-	want := stage.Result()
-	got := "Foundation: ready\n" +
+	want := "Foundation: ready\n" +
 		"Build: ready\n" +
 		"Finishing: ready\n"
+	got := stage.Result()
 
 	if want != got {
 		t.Errorf("want: %s, got: %s\n", want, got)
