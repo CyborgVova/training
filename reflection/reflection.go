@@ -10,6 +10,14 @@ type St struct {
 	Age  int8
 }
 
+func (s *St) PrintData() {
+	fmt.Printf("Name: %s, Age: %v\n", s.Name, s.Age)
+}
+
+func (s *St) ReturnIntX2(x int) int {
+	return x * 2
+}
+
 func GetReflectStruct(st any) {
 	p := reflect.ValueOf(st)
 	elem := p.Elem()
@@ -55,4 +63,10 @@ func main() {
 
 	GetReflectVar(&str)
 	fmt.Println(str)
+
+	p := reflect.ValueOf(&st)
+	p.MethodByName("PrintData").Call([]reflect.Value{})
+	rVal := []reflect.Value{reflect.ValueOf(int(21))}
+	ret := p.MethodByName("ReturnIntX2").Call(rVal)
+	fmt.Println(ret[0].Interface())
 }
