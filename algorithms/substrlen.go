@@ -24,7 +24,7 @@ func SubStrLen(slice []rune) int {
 	res, tmp, idx := 0, 0, 0
 	for i := 1; i < length; i++ {
 		s := slice[idx:i]
-		res = len(s)
+		tmp = len(s)
 		if find := FindIndex(s, slice[i]); find != -1 {
 			idx = find + 1
 		}
@@ -38,18 +38,14 @@ func SubStrLen(slice []rune) int {
 
 // 'a', 'b', 'c', 'b', 'a', 'd', 'a'
 
-// a, b, c, b
-
-// a, b, c,
-
 func main() {
 	a := []rune{'a', 'b', 'c', 'b', 'a', 'd', 'a'}
 	b := []rune{'a', 'x', 'b', 'x', 'c', 'x', 'd'}
-	// c := []rune{'a', 'a', 'a', 'a', 'a', 'a', 'a'}
-	// d := []rune{'a', 'b', 'c', 'd', 'e', 'f', 'g'}
+	c := []rune{'a', 'a', 'a', 'a', 'a', 'a', 'a'}
+	d := []rune{'a', 'b', 'c', 'd', 'e', 'f', 'g'}
 
 	fmt.Println(SubStrLen(a))
 	fmt.Println(SubStrLen(b))
-	// fmt.Println(SubStrLen(c))
-	// fmt.Println(SubStrLen(d))
+	fmt.Println(SubStrLen(c))
+	fmt.Println(SubStrLen(d))
 }
