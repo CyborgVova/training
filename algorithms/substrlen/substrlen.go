@@ -13,21 +13,23 @@ func FindIndex(arr []rune, elem rune) int {
 
 func SubStrLen(slice []rune) int {
 	length := len(slice)
-	if length == 0 {
-		return 0
+	if length < 2 {
+		return length
 	}
 
-	if length == 1 {
-		return 1
-	}
+	m := map[rune]int{slice[0]: 0}
 
-	res, tmp, idx := 0, 0, 0
+	res, tmp := 0, 1
 	for i := 1; i < length; i++ {
-		s := slice[idx:i]
-		tmp = len(s)
-		if find := FindIndex(s, slice[i]); find != -1 {
-			idx = find + 1
+		if ii, ok := m[slice[i]]; ok {
+			m = map[rune]int{}
+			res = tmp
+			tmp = 0
+			i = ii
+			continue
 		}
+		tmp++
+		m[slice[i]] = i
 		if res < tmp {
 			res = tmp
 		}
@@ -35,8 +37,6 @@ func SubStrLen(slice []rune) int {
 
 	return res
 }
-
-// 'a', 'b', 'c', 'b', 'a', 'd', 'a'
 
 func main() {
 	a := []rune{'a', 'b', 'c', 'b', 'a', 'd', 'a'}

@@ -22,3 +22,5 @@
 20. diffrent
 21. oop
 22. reflection
+23. algorithms
+24. leetcode
