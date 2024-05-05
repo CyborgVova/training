@@ -14,17 +14,13 @@ type Tree struct {
 	right *Tree
 }
 
-func FindMaxSum(root *Tree) {
-	helper(root)
-}
-
-func helper(root *Tree) int {
+func FindMaxSum(root *Tree) int {
 	if root == nil {
 		return 0
 	}
+	left := max(FindMaxSum(root.left), 0)
+	right := max(FindMaxSum(root.right), 0)
 
-	left := max(helper(root.left), 0)
-	right := max(helper(root.right), 0)
 	answer = max(answer, left+right+root.elem)
 	return max(left, right) + root.elem
 }
