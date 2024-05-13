@@ -46,9 +46,7 @@ func Decode(file string) string {
 				bt = bt << 1
 				bt |= byte(a & 1)
 				out = append(out, bt)
-				// fmt.Printf("%08b\n", bt)
 				bt = 0
-				// time.Sleep(time.Second)
 			}
 		}
 	}
