@@ -9,15 +9,16 @@ type Singleton struct {
 	s string
 }
 
-var singleton *Singleton
+var (
+	singleton *Singleton
+	once      sync.Once
+)
 
 func GetInstance() {
 	singleton = &Singleton{s: "singleton"}
 }
 
 func main() {
-	var once sync.Once
-
 	once.Do(GetInstance)
 	fmt.Printf("%p ", singleton)
 	fmt.Println(singleton.s)
