@@ -15,20 +15,22 @@ var (
 )
 
 func GetInstance() {
-	singleton = &Singleton{s: "singleton"}
+	once.Do(func() {
+		singleton = &Singleton{s: "singleton"}
+	})
 }
 
 func main() {
-	once.Do(GetInstance)
+	GetInstance()
 	fmt.Printf("%p ", singleton)
 	fmt.Println(singleton.s)
 
-	once.Do(GetInstance)
+	GetInstance()
 	singleton.s = "Only Once"
 	fmt.Printf("%p ", singleton)
 	fmt.Println(singleton.s)
 
-	once.Do(GetInstance)
+	GetInstance()
 	fmt.Printf("%p ", singleton)
 	fmt.Println(singleton.s)
 }
