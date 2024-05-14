@@ -26,3 +26,4 @@
 24. leetcode
 25. steganograph
 26. defer
+27. panic/recover
