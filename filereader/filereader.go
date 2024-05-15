@@ -18,4 +18,8 @@ func main() {
 	for sc.Scan() {
 		fmt.Println(string(sc.Bytes()))
 	}
+
+	if err := sc.Err(); err != nil {
+		log.Fatal(err)
+	}
 }
