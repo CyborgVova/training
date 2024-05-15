@@ -28,3 +28,4 @@
 26. defer
 27. panic/recover
 28. singleton
+29. filereader
