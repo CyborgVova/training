@@ -11,3 +11,5 @@
 9. Reverse linked list(./reverselinkedlist)
 10. Random generator(./randomgenerator)
 11. Merge some channels in one out(./mergechannels)
+12. Conveior for squart numbers on channels(./numbersconveior)
+13. Own WaitGroup on Semaphore(./ownwaitgroup)
