@@ -8,3 +8,5 @@
 6. Simple server with middleware (./handler)
 7. Recover after panic (./recover)
 8. Intersection values in two slices(./intersection)
+9. Reverse linked list(./reverselinkedlist)
+10. Random generator(./randomgenerator)
