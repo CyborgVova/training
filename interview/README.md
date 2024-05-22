@@ -10,3 +10,4 @@
 8. Intersection values in two slices(./intersection)
 9. Reverse linked list(./reverselinkedlist)
 10. Random generator(./randomgenerator)
+11. Merge some channels in one out(./mergechannels)
