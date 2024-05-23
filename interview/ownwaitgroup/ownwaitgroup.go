@@ -34,8 +34,8 @@ func main() {
 		sem.Add(1)
 		i := i
 		go func() {
+			defer sem.Done()
 			ch <- i * i
-			sem.Done()
 		}()
 
 	}

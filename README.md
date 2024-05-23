@@ -6,7 +6,7 @@
 4.  ginframework
 5.  gracefulshutdown
 6.  graph
-7.  heapsort
+7.  sorting
 8.  lambda
 9.  maps
 10. marshalling
@@ -29,3 +29,4 @@
 27. panic/recover
 28. singleton
 29. filereader
+30. interview
