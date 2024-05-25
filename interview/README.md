@@ -14,3 +14,4 @@
 12. Conveior for squart numbers on channels(./numbersconveior)
 13. Own WaitGroup on Semaphore(./ownwaitgroup)
 14. Make wrapper for cut task by timeout(./timeoutwrapper/)
+15. Insert element into slice by index(./insertintoslice)
