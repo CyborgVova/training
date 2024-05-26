@@ -1,42 +1,29 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
-	"os/signal"
 	"sync"
-	"sync/atomic"
-	"syscall"
 )
 
-func CheckUrls(ctx context.Context, counter *atomic.Int32, url string, out chan<- string) {
-	select {
-	case <-ctx.Done():
+func CheckUrls(wg *sync.WaitGroup, url string, ch chan string) {
+	resp, err := http.Get(url)
+	if err != nil {
+		ch <- fmt.Sprintf("%s - not ok", url)
 		return
-	default:
-		resp, err := http.Get(url)
-		if err != nil {
-			out <- fmt.Sprintf("адрес %s - not ok", url)
-			return
-		}
-		defer resp.Body.Close()
+	}
+	defer resp.Body.Close()
 
-		if resp.StatusCode != http.StatusOK {
-			out <- fmt.Sprintf("адрес %s - not ok", url)
-		} else {
-			out <- fmt.Sprintf("адрес %s - ok", url)
-			counter.Add(1)
-		}
+	if resp.StatusCode == http.StatusOK {
+		ch <- fmt.Sprintf("%s - ok", url)
+		wg.Done()
+	} else {
+		ch <- fmt.Sprintf("%s - not ok", url)
 	}
 }
 
 func main() {
-	var in = make(chan string, 1)
-	var out = make(chan string, 1)
-	var counter atomic.Int32
-	var wg sync.WaitGroup
-	var urls = []string{
+	urls := []string{
 		"http://ozon.ru",
 		"https://ozon.ru",
 		"http://google.com",
@@ -47,40 +34,21 @@ func main() {
 		"http://ёёёё",
 	}
 
-	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer cancel()
-	go func() {
-		for _, url := range urls {
-			in <- url
-		}
-		close(in)
-	}()
+	ch := make(chan string)
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-	workers := 0
-	for i := 0; i < workers; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for {
-				if counter.Load() == 2 {
-					out <- "End of programm"
-					break
-				}
-				url, ok := <-in
-				if !ok {
-					break
-				}
-				CheckUrls(ctx, &counter, url, out)
-			}
-		}()
+	for _, url := range urls {
+		go CheckUrls(&wg, url, ch)
 	}
 
 	go func() {
 		wg.Wait()
-		close(out)
+		close(ch)
 	}()
 
-	for c := range out {
+	for c := range ch {
 		fmt.Println(c)
 	}
+	fmt.Println("End of programm")
 }
