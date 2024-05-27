@@ -2,20 +2,22 @@
 
 Есть набор урлов.
 
+``` Go
 package main
 
 func main() {
-var urls = []string{
-"http://ozon.ru",
-"https://ozon.ru",
-"http://google.com",
-"http://somesite.com",
-"http://non-existent.domain.tld",
-"https://ya.ru",
-"http://ya.ru",
-"http://ёёёё",
+  var urls = []string{
+  "http://ozon.ru",  
+  "https://ozon.ru",  
+  "http://google.com",  
+  "http://somesite.com",  
+  "http://non-existent.domain.tld",  
+  "https://ya.ru",  
+  "http://ya.ru",  
+  "http://ёёёё",  
+  }  
 }
-}
+```
 
 Напишите программу, которая:
 
