@@ -10,4 +10,4 @@ func NewUserHandler(userUC *usecase.UserUseCase) UserHandler {
 	return UserHandler{}
 }
 
-func (uh *UserHandler) Run(port string)
+func (uh *UserHandler) Run(port string) {}
