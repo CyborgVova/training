@@ -2,12 +2,14 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 const (
+	driver   = "postgres"
 	host     = "localhost"
 	port     = "5432"
 	user     = "test"
@@ -16,7 +18,7 @@ const (
 )
 
 func NewDB(ctx context.Context) (*Database, error) {
-	dsn := "host=localhost port=5432 dbname=test user=test password=test sslmode=disable"
+	dsn := fmt.Sprintf("%s://%s:%s@%s:%s/%s", driver, user, password, host, port, dbname)
 	cluster, err := pgxpool.Connect(ctx, dsn)
 	if err != nil {
 		log.Fatal(err)
