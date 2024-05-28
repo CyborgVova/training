@@ -11,7 +11,7 @@ var (
 
 type UserRepo interface {
 	Add(ctx context.Context, user *User) (int64, error)
-	GetById(ctx context.Context) (*User, error)
-	List(ctx context.Context)
-	Update(ctx context.Context)
+	GetById(ctx context.Context, id int64) (*User, error)
+	List(ctx context.Context) ([]*User, error)
+	Update(ctx context.Context, user *User) (int64, error)
 }

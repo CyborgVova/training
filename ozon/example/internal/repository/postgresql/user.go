@@ -31,14 +31,15 @@ func (u *UsersRepo) GetById(ctx context.Context, id int64) (*repository.User, er
 }
 
 func (u *UsersRepo) List(ctx context.Context) ([]*repository.User, error) {
-	users := make([]repository.User, 0)
+	users := make([]*repository.User, 0)
 	err := u.db.Select(ctx, &users, "SELECT id, name, created_at, updated_at FROM users")
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
-	return nil, nil
+	return users, nil
 }
 
-func (u *UsersRepo) Update(ctx context.Context) {
-
+func (u *UsersRepo) Update(ctx context.Context, user *repository.User) (bool, error) {
+	conn, err := u.db.Exec(ctx, "UPDATE users SET (name, updated_at) = ($1, now()) WHERE id=$2 RETURNING id", user.Name, user.Id)
+	return conn.Update(), err
 }

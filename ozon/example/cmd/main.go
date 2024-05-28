@@ -29,6 +29,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("error add user: %v", err)
 	}
-
 	fmt.Printf("added new record:\nid: %d user: '%s'", id, user.Name)
+
+	user = repository.User{
+		Id:   1,
+		Name: "Semion",
+	}
+
+	ok, err := userRepo.Update(ctx, &user)
+	if err != nil {
+		log.Fatalf("error update user: %v", err)
+	}
+
+	fmt.Printf("update record: %v\nid: %d user: '%s'", ok, user.Id, user.Name)
 }
