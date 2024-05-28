@@ -19,7 +19,7 @@ func NewUsersRepo() *UsersRepo {
 
 func (u *UsersRepo) Add(ctx context.Context, user *repository.User) (int64, error) {
 	count++
-	user.CreatedAt = time.Now().UTC()
+	user.CreatedAt.Time = time.Now().UTC().Local()
 	user.Id = count
 	u.users[user.Id] = user
 	return user.Id, nil
@@ -44,7 +44,7 @@ func (u *UsersRepo) List(ctx context.Context) ([]*repository.User, error) {
 	return users, nil
 }
 func (u *UsersRepo) Update(ctx context.Context, user *repository.User) (bool, error) {
-	user.UpdatedAt = time.Now().UTC()
+	user.UpdatedAt.Time = time.Now().UTC().Local()
 	if _, ok := u.users[user.Id]; !ok {
 		return false, repository.ErrObjectNotFound
 	}

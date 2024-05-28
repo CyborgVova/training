@@ -2,14 +2,15 @@ package repository
 
 import (
 	"fmt"
-	"time"
+
+	"github.com/jackc/pgtype"
 )
 
 type User struct {
-	Id        int64     `db:"id"`
-	Name      string    `db:"name"`
-	CreatedAt time.Time `db:"created_at"`
-	UpdatedAt time.Time `db:"updated_at"`
+	Id        int64              `db:"id"`
+	Name      string             `db:"name"`
+	CreatedAt pgtype.Timestamptz `db:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at"`
 }
 
 func (u User) String() string {

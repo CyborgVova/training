@@ -19,6 +19,7 @@ const (
 
 func NewDB(ctx context.Context) (*Database, error) {
 	dsn := fmt.Sprintf("%s://%s:%s@%s:%s/%s", driver, user, password, host, port, dbname)
+	fmt.Println(dsn)
 	cluster, err := pgxpool.Connect(ctx, dsn)
 	if err != nil {
 		log.Fatal(err)
