@@ -7,7 +7,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type UserRepository struct {
+type UserRepository interface {
+	GetByID(table string, id int) []byte
+}
+
+type Postgres struct {
 	DB *sql.DB
 }
 
@@ -19,6 +23,17 @@ func New() *sql.DB {
 	return db
 }
 
-func NewUserRepository(db *sql.DB) *UserRepository {
-	return &UserRepository{DB: db}
+func NewUserRepository(db *sql.DB) UserRepository {
+	return &Postgres{DB: db}
+}
+
+func (p *Postgres) GetByID(table string, id int) []byte {
+	res, err := p.DB.Query("select * from $1 where id = $2", table, id)
+	if err != nil {
+		log.Printf("error get by id:", err)
+	}
+
+	for res.Next() {
+		res.Scan()
+	}
 }
