@@ -1,18 +1,28 @@
 package main
 
 import (
+	"context"
 	"fmt"
 )
 
-func Filter(ch chan int, f func(int) bool) chan int {
+func Filter(ctx context.Context, ch chan int, f func(int) bool) chan int {
 	out := make(chan int)
 	go func() {
-		for c := range ch {
-			if f(c) {
-				out <- c
+		defer close(out)
+		for {
+			select {
+			case c, ok := <-ch:
+				if !ok {
+					return
+				}
+
+				if f(c) {
+					out <- c
+				}
+			case <-ctx.Done():
+				return
 			}
 		}
-		close(out)
 	}()
 
 	return out
@@ -20,8 +30,10 @@ func Filter(ch chan int, f func(int) bool) chan int {
 
 func main() {
 	ch := make(chan int)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	f := func(i int) bool {
-		return i%2 == 0
+		return i%2 == 1
 	}
 
 	go func() {
@@ -31,7 +43,7 @@ func main() {
 		close(ch)
 	}()
 
-	for c := range Filter(ch, f) {
+	for c := range Filter(ctx, ch, f) {
 		fmt.Print(c, " ")
 	}
 	fmt.Println()
