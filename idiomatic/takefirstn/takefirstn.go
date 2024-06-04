@@ -11,9 +11,18 @@ func TakeFirstN(ctx context.Context, ch chan int, n int) chan int {
 	go func() {
 		defer close(out)
 		for i := 0; i < n; i++ {
-			out <- <-ch
+			select {
+			case c, ok := <-ch:
+				if !ok {
+					return
+				}
+				out <- c
+			case <-ctx.Done():
+				return
+			}
 		}
 	}()
+
 	return out
 }
 
@@ -28,7 +37,7 @@ func main() {
 		}
 	}()
 
-	for c := range TakeFirstN(ctx, ch, 7) {
+	for c := range TakeFirstN(ctx, ch, 3) {
 		fmt.Print(c, " ")
 	}
 	fmt.Println()
