@@ -32,7 +32,7 @@ func BuildHeap(arr []int, n int) {
 
 func SortHeap(arr []int, n int) {
 	BuildHeap(arr, n)
-	for i := n - 1; i >= 0; i-- {
+	for i := n - 1; i > 0; i-- {
 		arr[0], arr[i] = arr[i], arr[0]
 		heapify(arr, i, 0)
 	}
