@@ -96,7 +96,7 @@ func main() {
 	var mu sync.RWMutex
 	doneTasks := make([]Task, 0)
 	undoneTasks := make([]string, 0)
-	ticker := time.NewTicker(time.Duration(time.Second) * 3)
+	ticker := time.NewTicker(time.Second * time.Duration(freq))
 	for {
 		select {
 		case c, ok := <-ch:
