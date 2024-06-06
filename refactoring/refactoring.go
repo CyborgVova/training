@@ -15,9 +15,10 @@ var (
 	freq int
 )
 
+// init  define flags by run program
 func init() {
-	flag.IntVar(&dur, "duration", 10, "set working time --duration=10")
-	flag.IntVar(&freq, "frequency", 3, "set frequency time --frequency=3")
+	flag.IntVar(&dur, "d", 10, "set working time -d 10")
+	flag.IntVar(&freq, "f", 3, "set frequency time -f 3")
 }
 
 // Приложение эмулирует получение и обработку неких тасков.
@@ -33,6 +34,7 @@ func init() {
 // Обновленный код отправить через pull-request в github
 // Как видите, никаких привязок к внешним сервисам нет - полный карт-бланш на модификацию кода.
 
+// Task structure for filling
 type Task struct {
 	id         int
 	createdAt  string
@@ -40,11 +42,13 @@ type Task struct {
 	taskResult []byte
 }
 
+// String method for printing in fmt package
 func (t Task) String() string {
 	return fmt.Sprint(t.id)
 }
 
-func TaskCreator(ch chan Task, dur int) {
+// TaskCreator create tasks in a loop for a specified time
+func TaskCreator(wg *sync.WaitGroup, ch chan Task, dur int) {
 	timeAfter := time.After(time.Second * time.Duration(dur))
 	defer close(ch)
 	for {
@@ -52,6 +56,7 @@ func TaskCreator(ch chan Task, dur int) {
 		case <-timeAfter:
 			return
 		default:
+			wg.Add(1)
 			fTime := time.Now().Format(time.RFC3339)
 			if time.Now().Nanosecond()%2 > 0 {
 				fTime = "Some error occurred"
@@ -61,6 +66,7 @@ func TaskCreator(ch chan Task, dur int) {
 	}
 }
 
+// TaskFiller fill taskResult and updateAt field in Task instance
 func TaskFiller(task Task) Task {
 	t, err := time.Parse(time.RFC3339, task.createdAt)
 	if err != nil || !t.After(time.Now().Add(-20*time.Second)) {
@@ -73,7 +79,9 @@ func TaskFiller(task Task) Task {
 	return task
 }
 
-func TaskSorter(mu *sync.RWMutex, task Task, doneTasks *[]Task, undoneTasks *[]string) {
+// TaskSorter sorting tasks on done and error result
+func TaskSorter(wg *sync.WaitGroup, mu *sync.RWMutex, task Task, doneTasks *[]Task, undoneTasks *[]string) {
+	defer wg.Done()
 	if string(task.taskResult[14:]) == "successed" {
 		mu.Lock()
 		*doneTasks = append(*doneTasks, task)
@@ -86,41 +94,57 @@ func TaskSorter(mu *sync.RWMutex, task Task, doneTasks *[]Task, undoneTasks *[]s
 	}
 }
 
+func Printer(mu *sync.RWMutex, doneTasks *[]Task, undoneTasks *[]string) {
+	fmt.Println("Error:")
+	mu.Lock()
+	for _, res := range *undoneTasks {
+		fmt.Println(res)
+	}
+	mu.Unlock()
+	fmt.Println("Done:")
+	mu.Lock()
+	for _, res := range *doneTasks {
+		fmt.Println(res)
+	}
+	mu.Unlock()
+}
+
 func main() {
 	flag.Parse()
+	var mu sync.RWMutex
+	var wg sync.WaitGroup
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
-	ch := make(chan Task)
-	go TaskCreator(ch, dur)
+	ticker := time.NewTicker(time.Second * time.Duration(freq))
+	ctrl := make(chan struct{})
 
-	var mu sync.RWMutex
+	taskChan := make(chan Task, 10)
+	go TaskCreator(&wg, taskChan, dur)
+
 	doneTasks := make([]Task, 0)
 	undoneTasks := make([]string, 0)
-	ticker := time.NewTicker(time.Second * time.Duration(freq))
-	for {
-		select {
-		case c, ok := <-ch:
-			if !ok {
+
+	go func() {
+	endWork:
+		for {
+			select {
+			case c, ok := <-taskChan:
+				if !ok {
+					break endWork
+				}
+				go TaskSorter(&wg, &mu, TaskFiller(c), &doneTasks, &undoneTasks)
+			case <-ticker.C:
+				go Printer(&mu, &doneTasks, &undoneTasks)
+			case <-ctx.Done():
 				return
 			}
-			go TaskSorter(&mu, TaskFiller(c), &doneTasks, &undoneTasks)
-		case <-ticker.C:
-			go func() {
-				fmt.Println("Error:")
-				mu.RLock()
-				for _, res := range undoneTasks {
-					fmt.Println(res)
-				}
-				mu.RUnlock()
-				fmt.Println("Done:")
-				mu.RLock()
-				for _, res := range doneTasks {
-					fmt.Println(res)
-				}
-				mu.RUnlock()
-			}()
-		case <-ctx.Done():
-			return
 		}
-	}
+		go func() {
+			wg.Wait()
+			ctrl <- struct{}{}
+		}()
+	}()
+
+	<-ctrl
+	Printer(&mu, &doneTasks, &undoneTasks)
 }
