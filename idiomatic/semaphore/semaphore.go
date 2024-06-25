@@ -18,11 +18,9 @@ func (s *Semaphore) Release() {
 
 func main() {
 	lim := 5
-
 	sem := &Semaphore{C: make(chan struct{}, lim)}
 
 	out := make([]int, 20)
-
 	for i := 0; i < 20; i++ {
 		sem.Acquire()
 		go func(x int) {
