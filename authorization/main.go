@@ -16,7 +16,7 @@ const secretKey = "secret_key"
 func main() {
 	payload := jwt.MapClaims{
 		"sub": email,
-		"exp": time.Now().Add(2 * time.Hour).Unix(),
+		"exp": time.Now().Add(2 * time.Second).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 	t, err := token.SignedString([]byte(secretKey))
@@ -38,7 +38,7 @@ func main() {
 		return []byte(secretKey), nil
 	})
 	if err != nil {
-		log.Fatal("#############", err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("header:", tok.Header)
@@ -48,4 +48,13 @@ func main() {
 		fmt.Println("key:", k, "value:", v)
 	}
 
+	fmt.Println(tok.Valid)
+	time.Sleep(time.Second * 5)
+	tok1, err1 := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+	if err1 != nil {
+		log.Print(err1)
+	}
+	fmt.Println(tok1.Valid)
 }
